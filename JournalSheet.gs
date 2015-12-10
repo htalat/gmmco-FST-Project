@@ -267,9 +267,9 @@ function checkForErrors()
 
 }
 
+
 function checkPayrollClassification()
 {
-
   if(globalEmployeePayrollClassification  == CONSTANTS.lngNonExemptFST)
     return true;
 
@@ -279,7 +279,6 @@ function checkPayrollClassification()
   var  countCells  = 0
   dateRange.push(new Date( globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).getValue() ))
 
-  
   while(!cell)
   {
     countCells++
@@ -291,7 +290,7 @@ function checkPayrollClassification()
 
   var dates = getDates(dateRange[0],dateRange[1])
   var datesCount = new Array(dates.length)
-  for(var d = 0 ;d<datesCount.length;d++)
+  for(var d = 0;d<datesCount.length;d++)
   {
     datesCount[d] =0
   }
@@ -309,10 +308,8 @@ function checkPayrollClassification()
       {
         datesCount[i]++
         continue;      
-      }
-       
-    }
-     
+      }     
+    }    
     row++
     cell =  globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).isBlank()  
   } 
@@ -320,7 +317,7 @@ function checkPayrollClassification()
   for( var d = 0;d<datesCount.length;d++)
   {
    if(datesCount[d] == 0)
-   {a
+   {
     submitError = "Missing entry for: "+ (dates[d].getMonth()+1)+ "/"+ dates[d].getDate() +"/"+ dates[d].getYear() + "\n"
     return false;     
    }
@@ -329,22 +326,45 @@ function checkPayrollClassification()
   return true;
 }
 
- function getDates(startDate, stopDate) {
-      var dateArray = new Array();
-      var currentDate = startDate;
+function getDates(startDate, stopDate) 
+{
+  var dateArray = new Array();
+  var currentDate = startDate;
 
-
-   while (currentDate <= stopDate) {
-        dateArray.push(currentDate)
-
-        currentDate = addDays(currentDate,1);
-
-      }
-      return dateArray;
+  var tmpStart = startDate
+  var startDay = tmpStart.getDay();
+  
+  while(startDay >1)
+  {
+    tmpStart = addDays(tmpStart,-1);
+    dateArray.push(tmpStart)
+    startDay = tmpStart.getDay()
+    Logger.log("start: " + startDay)
+  }
+  
+  while (currentDate <= stopDate) 
+  {
+    dateArray.push(currentDate)
+    currentDate = addDays(currentDate,1);
+  }
+  
+  var tmpStop = stopDate
+  var endDay = tmpStop.getDay()
+  
+  while(endDay <6)
+  {
+    tmpStop = addDays(tmpStop,1);
+    dateArray.push(tmpStop) 
+    endDay = tmpStop.getDay()
+    Logger.log("end: " + endDay)
+  }
+  
+  return dateArray;
 }
 
- function addDays(currentDate,days) {
-       var dat = new Date(currentDate.valueOf())
-       dat.setDate(dat.getDate() + days);
-       return dat;
-   }
+ function addDays(currentDate,days) 
+{
+  var dat = new Date(currentDate.valueOf())
+  dat.setDate(dat.getDate() + days);
+  return dat;
+}
