@@ -254,3 +254,9 @@ Logger.log(blnError)
   return true
 
 }
+
+function addDays(currentDate,days){
+	var dat = new Date(currentDate.valueOf())
+	dat.setDate(dat.getDate() + days)
+	return dat;
+}
