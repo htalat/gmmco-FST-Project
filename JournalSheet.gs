@@ -148,6 +148,8 @@ function colorJournalCell(str, r , c)
   globalJournalSheet.getRange(r , c).setBackground(str);
 }
 
+var submitError = ""
+
 function btnSubmitButton()
 {
   var ui = SpreadsheetApp.getUi(); // Same variations.
@@ -160,10 +162,14 @@ function btnSubmitButton()
   if (result == ui.Button.YES) {
   
     
-    if(checkForErrors())
+    if(checkForErrors() && checkPayrollClassification())
+    {
+    
       globalJournalSheet.getRange(CONSTANTS.cellSubmitDateValue[0],CONSTANTS.cellSubmitDateValue[1]).setValue(new Date())
+    
+    }
     else
-      Browser.msgBox("There are some errors! Fix them first in order to submit")
+      Browser.msgBox("There are some errors! Fix them first in order to submit\n" + submitError)
       
       
   } else {
@@ -241,22 +247,104 @@ function checkForErrors()
 {
   var row = CONSTANTS.cellDateHeader[0] +1;
   var blnError = globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).isBlank()
-Logger.log(blnError)
+
+
   while(!blnError)
   {
+    
     var cellCheck = globalJournalSheet.getRange(row,CONSTANTS.cellErrorHeader[1]).isBlank()
     if(!cellCheck)
+    {
+      submitError = "Row: " + row + " not filled correctly\n"
       return false
+    }
     
     row ++ 
     blnError = globalJournalSheet.getRange(row,CONSTANTS.cellErrorHeader[1]).isBlank()
   }
+
   return true
 
 }
 
-function addDays(currentDate,days){
-	var dat = new Date(currentDate.valueOf())
-	dat.setDate(dat.getDate() + days)
-	return dat;
+function checkPayrollClassification()
+{
+
+  if(globalEmployeePayrollClassification  == CONSTANTS.lngNonExemptFST)
+    return true;
+
+  var dateRange = []
+  var row = CONSTANTS.cellDateHeader[0] +1
+  var cell =  globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).isBlank()
+  var  countCells  = 0
+  dateRange.push(new Date( globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).getValue() ))
+
+  
+  while(!cell)
+  {
+    countCells++
+    row++
+    cell =  globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).isBlank()  
+  }
+
+  dateRange.push(new Date(globalJournalSheet.getRange(row-1,CONSTANTS.cellDateHeader[1]).getValue()))
+
+  var dates = getDates(dateRange[0],dateRange[1])
+  var datesCount = new Array(dates.length)
+  for(var d = 0 ;d<datesCount.length;d++)
+  {
+    datesCount[d] =0
+  }
+  
+  row = CONSTANTS.cellDateHeader[0] +1
+  cell =  globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).isBlank()
+  var indexFound = -1
+  var tmpCount = 0
+  while(!cell)
+  {
+    var tmp = new Date(globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).getValue())
+    for(var i=0;i<dates.length;i++)
+    {
+      if(( (dates[i].getDate() == tmp.getDate()) && (dates[i].getMonth() == tmp.getMonth()) && (dates[i].getYear() == tmp.getYear()) ))
+      {
+        datesCount[i]++
+        continue;      
+      }
+       
+    }
+     
+    row++
+    cell =  globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).isBlank()  
+  } 
+
+  for( var d = 0;d<datesCount.length;d++)
+  {
+   if(datesCount[d] == 0)
+   {a
+    submitError = "Missing entry for: "+ (dates[d].getMonth()+1)+ "/"+ dates[d].getDate() +"/"+ dates[d].getYear() + "\n"
+    return false;     
+   }
+  
+  }
+  return true;
 }
+
+ function getDates(startDate, stopDate) {
+      var dateArray = new Array();
+      var currentDate = startDate;
+
+
+   while (currentDate <= stopDate) {
+        dateArray.push(currentDate)
+
+        currentDate = addDays(currentDate,1);
+
+      }
+      return dateArray;
+}
+
+ function addDays(currentDate,days) {
+       var dat = new Date(currentDate.valueOf())
+       dat.setDate(dat.getDate() + days);
+       return dat;
+   }
