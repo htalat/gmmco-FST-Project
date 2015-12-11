@@ -21,7 +21,7 @@ function journalSheet(e)
          colorJournalCells(lngEventTypeId,cellSourceRow,lngEventId);
         if(lngEventId != -1)
         {
-          globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellEventIDHeader[1]).setValue(lngEventTypeId)
+          globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellEventIDHeader[1]).setValue(lngEventId)
          var rowId = getNextAvailableRowID()
          globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellRowIDHeader[1]).setValue(rowId)  
         }
