@@ -339,7 +339,7 @@ function getDates(startDate, stopDate)
     tmpStart = addDays(tmpStart,-1);
     dateArray.push(tmpStart)
     startDay = tmpStart.getDay()
-    Logger.log("start: " + startDay)
+    
   }
   
   while (currentDate <= stopDate) 
@@ -351,12 +351,12 @@ function getDates(startDate, stopDate)
   var tmpStop = stopDate
   var endDay = tmpStop.getDay()
   
-  while(endDay <6)
+  while(endDay <5)
   {
     tmpStop = addDays(tmpStop,1);
     dateArray.push(tmpStop) 
     endDay = tmpStop.getDay()
-    Logger.log("end: " + endDay)
+    
   }
   
   return dateArray;
