@@ -75,7 +75,7 @@ function validateRow(row)
   var cellAmount       = globalJournalSheet.getRange(row , CONSTANTS.cellAmountHeader[1]);
   var cellPaymentType  = globalJournalSheet.getRange(row , CONSTANTS.cellPaymentTypeHeader[1]);
   var cellError        = globalJournalSheet.getRange(row , CONSTANTS.cellErrorHeader[1]);
-  cellError.setValue(" ");
+  cellError.setValue("");
   
   if(validateData(cellDate,cellEvent,cellTimeStart,cellTimeStop,cellMiles,cellVehicleUsed,cellAmount,cellPaymentType,cellError))
   {
