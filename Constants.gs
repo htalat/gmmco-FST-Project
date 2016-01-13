@@ -94,7 +94,7 @@ var CONSTANTS = {
   milliSecondsIn1Day  : 1000*60*60*24,
   milliSecondsIn1Hour : 1000*60*60,  
   intMaximumShiftHours: 8,
-  cellDefaultPaymentType:[3,9], 
+  cellDefaultPaymentType:[4,9], 
   
   
   EventDataTypeId:
