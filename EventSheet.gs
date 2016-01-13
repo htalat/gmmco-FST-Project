@@ -51,7 +51,7 @@ function eventSheet(e)
    
    if(cellRow == CONSTANTS.cellEventSubmit[0] && cellCol == CONSTANTS.cellEventSubmit[1])
    {
-     var cellValue = globalEventSheet.getRange(cellRow,cellCol).getValue();
+     var cellValue = globalEventSheet.getRange(cellRow,cellCol).getValue().toUpperCase();
      if(cellValue=== CONSTANTS.cellEventSubmitValue)
        doAutoSubmit();  
    }
