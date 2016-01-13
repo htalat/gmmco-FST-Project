@@ -32,7 +32,7 @@ function fetchVehicleUsed()
 function setVehicleUsed(cellVehicleUsed)
 {
   var strValue = cellVehicleUsed.getValue();
-  var lngId = getVehicleUsedId(strValue);
+  var lngId = getVehicleUsedId(strValue.toUpperCase());
   
   if(lngId != -1)
   {

@@ -32,7 +32,7 @@ function fetchPaymentTypes()
 function setPaymentType(cellPaymentType)
 {
   var strValue = cellPaymentType.getValue();
-  var lngId = getPaymentTypeId(strValue); 
+  var lngId = getPaymentTypeId(strValue.toUpperCase()); 
   
   if(lngId != -1)
   {

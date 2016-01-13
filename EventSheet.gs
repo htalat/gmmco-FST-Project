@@ -48,6 +48,7 @@ function eventSheet(e)
      setVehicleUsed(cellVehicleUsed);
    }
   
+   
    if(cellRow == CONSTANTS.cellEventSubmit[0] && cellCol == CONSTANTS.cellEventSubmit[1])
    {
      var cellValue = globalEventSheet.getRange(cellRow,cellCol).getValue();

@@ -68,7 +68,7 @@ function getEventDefault(lngId)
 function setEventName(cellEvent)
 {
   var strValue = cellEvent.getValue();
-  var lngId  = getEventId(strValue);
+  var lngId  = getEventId(strValue.toUpperCase());
   if(lngId != -1)
   {
     for(var i=0;i<globalEventTypes.length;i++)
