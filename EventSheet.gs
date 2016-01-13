@@ -48,8 +48,13 @@ function eventSheet(e)
      setVehicleUsed(cellVehicleUsed);
    }
   
-   doAutoSubmit();
-  
+   if(cellRow == CONSTANTS.cellEventSubmit[0] && cellCol == CONSTANTS.cellEventSubmit[1])
+   {
+     var cellValue = globalEventSheet.getRange(cellRow,cellCol).getValue();
+     if(cellValue=== CONSTANTS.cellEventSubmitValue)
+       doAutoSubmit();  
+   }
+   
    
   
 }
@@ -286,6 +291,7 @@ function clearValues()
   globalEventSheet.getRange(CONSTANTS.cellEventVehicleUsedValue[0] , CONSTANTS.cellEventVehicleUsedValue[1]).clear();
   globalEventSheet.getRange(CONSTANTS.cellEventPaymentTypeValue[0] , CONSTANTS.cellEventPaymentTypeValue[1]).clear();
   globalEventSheet.getRange(CONSTANTS.cellEventNotesValue[0] , CONSTANTS.cellEventNotesValue[1]).clear();
+  globalEventSheet.getRange(CONSTANTS.cellEventSubmit[0],CONSTANTS.cellEventSubmit[1]).clear(); 
 }
 
 // returns the row number which is empty in the journal sheet

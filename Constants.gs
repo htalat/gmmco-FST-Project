@@ -13,7 +13,8 @@ var CONSTANTS = {
   cellEventNotesValue:       [9,1],
   cellEventStatusValue:      [14,1],
   cellAutoSubmitValue:       [15,1],
-  
+  cellEventSubmit:           [16,1],
+  cellEventSubmitValue:      "S",
   // FOR JOURNAL SHEET
   
   rangeTableBoundary:    [[13,1], [13,11]], // A13 -> J13
