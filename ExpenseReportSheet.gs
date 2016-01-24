@@ -43,7 +43,7 @@ function compileExpenseData()
           var strMiles    = globalJournalSheet.getRange(row,CONSTANTS.cellMilesHeader[1]).getValue()
           var rateMileage = globalExpenseReportSheet.getRange(CONSTANTS.ExpenseReport.cellMileageRate[0],CONSTANTS.ExpenseReport.cellMileageRate[1]).getValue() 
           var mnyMileage  = rateMileage * strMiles
-          mnyRoadOP = mnyMileage
+          mnyRoadOP += mnyMileage
         
         }
       }
