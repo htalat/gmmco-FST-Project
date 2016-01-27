@@ -208,7 +208,7 @@ function submitDataToJournal(strEvent,strDate,strTimeStart,strTimeStop,strAmount
   
   var lngEventId = getEventId(strEvent)
   if(lngEventId != -1)
-    globalJournalSheet.getRange(row,CONSTANTS.cellEventIDHeader[1]).setValue(lngEventTypeId)
+    globalJournalSheet.getRange(row,CONSTANTS.cellEventIDHeader[1]).setValue(lngEventId)
   else
     globalJournalSheet.getRange(row,CONSTANTS.cellEventIDHeader[1]).clearContent()
 
