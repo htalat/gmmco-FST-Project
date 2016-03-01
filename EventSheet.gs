@@ -1,15 +1,14 @@
 /*
   this function is triggered when a cell in Event sheet is edited
 */
-function eventSheet(e)
-{
-   var cellSource = e.range;
+var cellSource = e.range;
    var cellRow = cellSource.getRow();
    var cellCol = cellSource.getColumn();
    var cellVal  = cellSource.getValue();
    var cellError = globalEventSheet.getRange(CONSTANTS.cellEventStatusValue[0],CONSTANTS.cellEventStatusValue[1]);
    globalEventSheet.getRange(CONSTANTS.cellEventStatusValue[0] , CONSTANTS.cellEventStatusValue[1]).clearContent();
- 
+   
+  //date
    if(cellRow == CONSTANTS.cellEventDateValue[0] && cellCol == CONSTANTS.cellEventDateValue[1])
    {
      var cellDate  = globalEventSheet.getRange(CONSTANTS.cellEventDateValue[0],CONSTANTS.cellEventDateValue[1]);
@@ -17,15 +16,15 @@ function eventSheet(e)
      if(!validateDate(cellDate,cellError))
        return;
 
-   }
+   }//event
    else if (cellRow == CONSTANTS.cellEventTypeValue[0] && cellCol == CONSTANTS.cellEventTypeValue[1])
    {
-      var lngEventTypeId = getEventDataTypeId(cellVal); 
-      var lngEventId = getEventId(cellVal);
-      var cellEventSelected = globalEventSheet.getRange(cellRow,cellCol);
-      setEventName(cellEventSelected);
-      colorEventCells(lngEventTypeId,lngEventId);   
-   }
+     var lngEventTypeId = getEventDataTypeId(cellVal);                       //get event data type id
+     var lngEventId = getEventId(cellVal);                                   //get event id
+     var cellEventSelected = globalEventSheet.getRange(cellRow,cellCol);     //get event name selected
+     setEventName(cellEventSelected);                                        //set event name properly
+     colorEventCells(lngEventTypeId,lngEventId);                             //color the appropriate cells red 
+   }//time start or time stop
    else if((cellRow >= CONSTANTS.cellEventTimeStartValue[0]  || cellRow <= CONSTANTS.cellEventTimeStopValue[0])
            && 
            (cellCol >= CONSTANTS.cellEventTimeStartValue[1]  || cellCol <= CONSTANTS.cellEventTimeStopValue[1]))
@@ -35,20 +34,28 @@ function eventSheet(e)
      if(!validateTime(cellTimeStart,cellTimeStop,cellError))
        return;
    }
-   
+   //payment type
    if(cellRow === CONSTANTS.cellEventPaymentTypeValue[0] && cellCol === CONSTANTS.cellEventPaymentTypeValue[1])
    {
      var cellPayment = globalEventSheet.getRange(cellRow,cellCol);
      setPaymentType(cellPayment);
    }
-  
+   //miles
+   if(cellRow == CONSTANTS.cellEventMilesValue[0] && cellCol == CONSTANTS.cellEventMilesValue[1])
+   {
+     var cellMiles = globalEventSheet.getRange(cellRow,cellCol);
+     var cellAmount = globalEventSheet.getRange(CONSTANTS.cellEventAmountValue[0],CONSTANTS.cellEventAmountValue[1]);
+     setAmountForMiles(cellMiles,cellAmount);
+   }
+    
+   // vehicle used
    if(cellRow === CONSTANTS.cellEventVehicleUsedValue[0] && cellCol === CONSTANTS.cellEventVehicleUsedValue[1])
    {
      var cellVehicleUsed = globalEventSheet.getRange(cellRow,cellCol);
      setVehicleUsed(cellVehicleUsed);
    }
   
-   
+  //s to submit
    if(cellRow == CONSTANTS.cellEventSubmit[0] && cellCol == CONSTANTS.cellEventSubmit[1])
    {
      var cellValue = globalEventSheet.getRange(cellRow,cellCol).getValue().toUpperCase();
@@ -56,8 +63,14 @@ function eventSheet(e)
        doAutoSubmit();  
    }
    
-   
-  
+}
+
+function setAmountForMiles(cellMiles,cellAmount)
+{
+  var lngMileageRate = globalExpenseReportSheet.getRange(CONSTANTS.ExpenseReport.cellMileageRate[0],CONSTANTS.ExpenseReport.cellMileageRate[1]).getValue();
+  var lngMiles = cellMiles.getValue();
+  var lngAmount = lngMileageRate * lngMiles;
+  cellAmount.setValue(lngAmount);
 }
 function doAutoSubmit()
 {
@@ -93,8 +106,8 @@ function colorEventCells(lngEventTypeId,lngEventId)
   {
     colorEventCell(COLORS.Red, CONSTANTS.cellEventTimeStartValue[0] , CONSTANTS.cellEventTimeStartValue[1], globalEventSheet.getSheetName());
     colorEventCell(COLORS.Red, CONSTANTS.cellEventTimeStopValue[0] , CONSTANTS.cellEventTimeStopValue[1], globalEventSheet.getSheetName());
-    colorEventCell(COLORS.Red, CONSTANTS.cellEventAmountValue[0] , CONSTANTS.cellEventAmountValue[1], globalEventSheet.getSheetName());
-    colorEventCell(COLORS.Red, CONSTANTS.cellEventPaymentTypeValue[0] , CONSTANTS.cellEventPaymentTypeValue[1], globalEventSheet.getSheetName());    
+    var strEventPaymentDefault = globalProgramDataSheet.getRange(CONSTANTS.cellDefaultPaymentType[0],CONSTANTS.cellDefaultPaymentType[1]).getValue();
+    globalEventSheet.getRange(CONSTANTS.cellEventPaymentTypeValue[0] , CONSTANTS.cellEventPaymentTypeValue[1]).setValue(strEventPaymentDefault);
     var cellTmp = globalEventSheet.getRange(CONSTANTS.cellEventMilesValue[0] , CONSTANTS.cellEventMilesValue[1]);
     globalEventSheet.setActiveRange(cellTmp);
   } else if(lngEventTypeId === CONSTANTS.EventDataTypeId.lngTimeAmount)
@@ -145,7 +158,7 @@ function validateColumn()
    var cellAmount      = globalEventSheet.getRange(CONSTANTS.cellEventAmountValue[0] , CONSTANTS.cellEventAmountValue[1]);
    var cellPaymentType = globalEventSheet.getRange(CONSTANTS.cellEventPaymentTypeValue[0] , CONSTANTS.cellEventPaymentTypeValue[1]);
    var cellError       = globalEventSheet.getRange(CONSTANTS.cellEventStatusValue[0] , CONSTANTS.cellEventStatusValue[1]);
-   cellError.setValue(" ");
+   cellError.setValue("");
   
   if(validateData(cellDate,cellEvent,cellTimeStart,cellTimeStop,cellMiles,cellVehicleUsed,cellAmount,cellPaymentType,cellError))
   {
@@ -215,20 +228,12 @@ function submitDataToJournal(strEvent,strDate,strTimeStart,strTimeStop,strAmount
 
   if(lngEventTypeId == CONSTANTS.EventDataTypeId.lngAmount || lngEventTypeId == CONSTANTS.EventDataTypeId.lngTimeAmount)
   {
-    var lngPaymentTypeId = getPaymentTypeId(strPaymentType);
-    Logger.log(lngPaymentTypeId);
-   if(lngPaymentTypeId != -1)
-     globalJournalSheet.getRange(row,CONSTANTS.cellPaymentTypeIDHeader[1]).setValue(lngPaymentTypeId)
-   else
-     globalJournalSheet.getRange(row,CONSTANTS.cellPaymentTypeIDHeader[1]).clearContent()   
+    setPaymentTypeIDInJournal(row,strPaymentType)
     
   }else if (lngEventTypeId == CONSTANTS.EventDataTypeId.lngMileage)
   {
-    var lngVehicleUsedId = getVehicleUsedId(strVehicleUsed)
-    if(lngVehicleUsedId != -1)
-      globalJournalSheet.getRange(row,CONSTANTS.cellVehicleUsedIDHeader[1]).setValue(lngVehicleUsedId)
-    else
-      globalJournalSheet.getRange(row,CONSTANTS.cellVehicleUsedIDHeader[1]).clearContent()
+    setPaymentTypeIDInJournal(row,strPaymentType)
+    setVehicleUsedIDInJournal(row,strVehicleUsed)
   }
   //  ADD A ROW ID HERE
   var rowId = getNextAvailableRowID()
@@ -247,6 +252,23 @@ function submitDataToJournal(strEvent,strDate,strTimeStart,strTimeStop,strAmount
 
 }
 
+function setPaymentTypeIDInJournal(row,strPaymentType)
+{
+  var lngPaymentTypeId = getPaymentTypeId(strPaymentType);
+     if(lngPaymentTypeId != -1)
+     globalJournalSheet.getRange(row,CONSTANTS.cellPaymentTypeIDHeader[1]).setValue(lngPaymentTypeId)
+   else
+     globalJournalSheet.getRange(row,CONSTANTS.cellPaymentTypeIDHeader[1]).clearContent()  
+  
+}
+function setVehicleUsedIDInJournal(row,strVehicleUsed)
+{
+    var lngVehicleUsedId = getVehicleUsedId(strVehicleUsed)
+    if(lngVehicleUsedId != -1)
+      globalJournalSheet.getRange(row,CONSTANTS.cellVehicleUsedIDHeader[1]).setValue(lngVehicleUsedId)
+    else
+      globalJournalSheet.getRange(row,CONSTANTS.cellVehicleUsedIDHeader[1]).clearContent()
+}
 
 function colorForTime(row)
 {
@@ -268,8 +290,6 @@ function colorForAmount(row)
 
 function colorForMileage(row)
 {
-  colorJournalCell(COLORS.Red,row,CONSTANTS.cellAmountHeader[1]);
-  colorJournalCell(COLORS.Red,row,CONSTANTS.cellPaymentTypeHeader[1]);  
   colorJournalCell(COLORS.Red,row,CONSTANTS.cellTimeStartHeader[1]);
   colorJournalCell(COLORS.Red,row,CONSTANTS.cellTimeStopHeader[1]);
 }

@@ -93,11 +93,7 @@ function validateMileageEvent(cellMiles,cellTimeStart, cellTimeStop, cellAmount,
    
   var blnTimeStart = cellTimeStart.isBlank();
   var blnTimeStop  = cellTimeStop.isBlank();
-  var blnAmount = cellAmount.isBlank();
-  var blnPaymentType = cellPaymentType.isBlank();
-  
-  
-  if(!blnAmount || !blnPaymentType || !blnTimeStart || !blnTimeStop)
+  if(!blnTimeStart || !blnTimeStop)
   {  cellError.setValue("Red Cells must be empty!"); return false;}   
 
   return true;

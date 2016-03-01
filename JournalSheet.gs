@@ -11,7 +11,7 @@ function journalSheet(e)
 
    if(cellSourceRow > CONSTANTS.rangeTableBoundary[0][0] && cellSourceColumn <= (CONSTANTS.rangeTableBoundary[1][1]-1))
     {
-      
+      //event 
       if(cellSourceColumn === CONSTANTS.cellEventTypeHeader[1])
       {
         clearJournalRowColors(cellSourceRow);
@@ -30,30 +30,33 @@ function journalSheet(e)
           globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellEventIDHeader[1]).clearContent()
           globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellRowIDHeader[1]).clearContent()
         }
-          
-       
       }
+      //miles
+      if(cellSourceColumn === CONSTANTS.cellMilesHeader[1])
+      {
+        var cellMiles = globalJournalSheet.getRange(cellSourceRow,cellSourceColumn);
+        var cellAmount = globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellAmountHeader[1])
+        var strPaymentType = globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellPaymentTypeHeader[1]).getValue();
+        setAmountForMiles(cellMiles,cellAmount);     
+        setPaymentTypeIDInJournal(cellSourceRow,strPaymentType);
+        
+      }
+      //payment type
       if(cellSourceColumn === CONSTANTS.cellPaymentTypeHeader[1])
       {
         var cellPayment = globalJournalSheet.getRange(cellSourceRow,cellSourceColumn);
         setPaymentType(cellPayment);
-        var lngPaymentTypeId = getPaymentTypeId(cellPayment.getValue())
-        if(lngPaymentTypeId != -1)
-          globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellPaymentTypeIDHeader[1]).setValue(lngPaymentTypeId)
-        else
-          globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellPaymentTypeIDHeader[1]).clearContent()  
+        var strPaymentType = cellPayment.getValue();
+        setPaymentTypeIDInJournal(cellSourceRow,strPaymentType);
+        
       }
-  
+      // vehicle used 
       if(cellSourceColumn === CONSTANTS.cellVehicleUsedHeader[1])
       { 
         var cellVehicleUsed = globalJournalSheet.getRange(cellSourceRow,cellSourceColumn);
         setVehicleUsed(cellVehicleUsed);
-        var lngVehicleUsedId = getVehicleUsedId(cellVehicleUsed.getValue())
-        if(lngVehicleUsedId != -1)
-          globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellVehicleUsedIDHeader[1]).setValue(lngVehicleUsedId)
-        else
-          globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellVehicleUsedIDHeader[1]).clearContent()
-        
+        var strVehicleUsed = cellVehicleUsed.getValue();
+        setVehicleUsedIDInJournal(cellSourceRow,strVehicleUsed);      
       }
 
       validateRow(cellSourceRow);
@@ -108,8 +111,8 @@ function colorJournalCells(lngEventTypeId, row, lngEventId)
   }else if(lngEventTypeId === CONSTANTS.EventDataTypeId.lngMileage){
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellTimeStartHeader[1]);
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellTimeStopHeader[1]);
-    colorJournalCell(COLORS.Red, row , CONSTANTS.cellAmountHeader[1]);
-    colorJournalCell(COLORS.Red, row , CONSTANTS.cellPaymentTypeHeader[1]);
+    var strEventPaymentDefault = globalProgramDataSheet.getRange(CONSTANTS.cellDefaultPaymentType[0],CONSTANTS.cellDefaultPaymentType[1]).getValue();
+    globalJournalSheet.getRange(row , CONSTANTS.cellPaymentTypeHeader[1]).setValue(strEventPaymentDefault);
     
   }else if(lngEventTypeId === CONSTANTS.EventDataTypeId.lngTime){
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellMilesHeader[1]);
