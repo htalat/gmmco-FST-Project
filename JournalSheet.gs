@@ -259,7 +259,7 @@ function clearAll()
 
 function sortButton()
 {
- var range = globalJournalSheet.getRange(CONSTANTS.cellDateHeader[0]+1,CONSTANTS.cellDateHeader[1],500,15)
+ var range = globalJournalSheet.getRange(CONSTANTS.cellDateHeader[0]+1,CONSTANTS.cellDateHeader[1],500,CONSTANTS.cellRowIDHeader[1])
  range.sort(1) 
 }
 
