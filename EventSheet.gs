@@ -203,8 +203,12 @@ function submitDataToJournal(strEvent,strDate,strTimeStart,strTimeStop,strAmount
 {
   var row = getEmptyRowInJournal(CONSTANTS.cellDateHeader[0] +1, CONSTANTS.cellDateHeader[1])
   var lngEventTypeId = getEventDataTypeId(strEvent)
+  
+    var dateDate = new Date(strDate);
+  var strDay   = CONSTANTS.strDayOfTheWeek[dateDate.getDay()];
       
   globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).setValue(strDate);
+   globalJournalSheet.getRange(row,CONSTANTS.cellDayHeader[1]).setValue(strDay);
   globalJournalSheet.getRange(row,CONSTANTS.cellEventTypeHeader[1]).setValue(strEvent);  
   globalJournalSheet.getRange(row,CONSTANTS.cellTimeStartHeader[1]).setValue(strTimeStart);
   globalJournalSheet.getRange(row,CONSTANTS.cellTimeStopHeader[1]).setValue(strTimeStop);
