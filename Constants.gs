@@ -16,33 +16,34 @@ var CONSTANTS = {
   cellEventSubmit:           [16,1],
   cellEventSubmitValue:      "S",
   // FOR JOURNAL SHEET
+  rangeTableBoundary:    [[13,1], [13,12]], // A13 -> J13
   
-  rangeTableBoundary:    [[13,1], [13,11]], // A13 -> J13
-  cellDateHeader:        [13,1],           // DATE header         A13
-  cellEventTypeHeader:   [13,2],           // EVENT TYPE header   B13
-  cellTimeStartHeader:   [13,3],           // TIME START header   C13
-  cellTimeStopHeader:    [13,4],           // TIME STOP header    D13
-  cellDurationHeader:    [13,5],           // DURATION header     E13
-  cellMilesHeader:       [13,6],           // MILES header        F13
-  cellVehicleUsedHeader: [13,7],           // VEHICLE USED header G13
-  cellAmountHeader:      [13,8],           // AMOUNT header       H13
-  cellPaymentTypeHeader: [13,9],           // PAYMENT TYPE header I13
-  cellNotesHeader:       [13,10],           // NOTES header        J13
-  cellErrorHeader:       [13,11],          // ERROR header        K13
+  cellDateHeader:        [13,1],           // DATE header          A13
+  cellDayHeader:         [13,2],           // DAT header           B13
+  cellEventTypeHeader:   [13,3],           // EVENT TYPE header    C13
+  cellTimeStartHeader:   [13,4],           // TIME START header    D13
+  cellTimeStopHeader:    [13,5],           // TIME STOP header     E13
+  cellDurationHeader:    [13,6],           // DURATION header      F13
+  cellMilesHeader:       [13,7],           // MILES header         G13
+  cellVehicleUsedHeader: [13,8],           // VEHICLE USED header  H13
+  cellAmountHeader:      [13,9],           // AMOUNT header        I13
+  cellPaymentTypeHeader: [13,10],           // PAYMENT TYPE header J13
+  cellNotesHeader:       [13,11],           // NOTES header        K13
+  cellErrorHeader:       [13,12],          // ERROR header         L13
   
-  cellEventIDHeader:       [13,12],
-  cellPaymentTypeIDHeader: [13,13],
-  cellVehicleUsedIDHeader: [13,14],
-  cellRowIDHeader:         [13,15],
+  cellEventIDHeader:       [13,13],
+  cellPaymentTypeIDHeader: [13,14],
+  cellVehicleUsedIDHeader: [13,15],
+  cellRowIDHeader:         [13,16],
   
-  cellTechnicianValue: [5,7],
-  cellSerialNumberValue:[4,9],
-  cellHourMeterValue: [5,9],
-  cellContactValue: [6,9],
-  cellPhoneValue: [7,9],
-  cellEmailValue: [8,9],
+  cellTechnicianValue:   [5,8],
+  cellSerialNumberValue: [4,10],
+  cellHourMeterValue:    [5,10],
+  cellContactValue:      [6,10],
+  cellPhoneValue:        [7,10],
+  cellEmailValue:        [8,10],
  
-  cellSubmitDateValue:[8,7],
+  cellSubmitDateValue:[8,8],
   // FOR PROGRAM DATA SHEET
   
   cellProgramDataEventTypeIdHeader:   [7,1],    //Event Type ID        header A7
@@ -104,9 +105,9 @@ var CONSTANTS = {
    lngAmount:     2,
    lngMileage:    3,
    lngTimeAmount: 4,
-  }
+  },
   
-
+ strDayOfTheWeek : ["Sunday","Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday"]
   
 };
 

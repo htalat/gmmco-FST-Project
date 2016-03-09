@@ -61,6 +61,23 @@ function journalSheet(e)
 
       validateRow(cellSourceRow);
         
+      //date
+      if(cellSourceColumn === CONSTANTS.cellDateHeader[1])
+      {
+        var cellDate = globalJournalSheet.getRange(cellSourceRow,cellSourceColumn);
+        var cellDay = globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellDayHeader[1]);
+        if(cellDate.isBlank())
+        {
+          cellDay.setValue("");
+        }else
+        {
+          var cellDateValue =  new Date(globalJournalSheet.getRange(cellSourceRow,CONSTANTS.cellDateHeader[1]).getValue());
+          var lngDay = cellDateValue.getDay();
+          var strDay = CONSTANTS.strDayOfTheWeek[lngDay];
+          cellDay.setValue(strDay);
+        }
+        
+      }
     }
  
 }
@@ -220,7 +237,7 @@ function clearAll()
   while(!cellTemp.isBlank())
   {
   
-    range1 = globalJournalSheet.getRange(row,col_1,1,4)
+    range1 = globalJournalSheet.getRange(row,col_1,1,5)
     range2 = globalJournalSheet.getRange(row,col_3,1,col_4-col_3)
     
     range1.clearContent()
