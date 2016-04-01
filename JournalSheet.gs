@@ -265,6 +265,13 @@ function sortButton()
 
 function checkForErrors()
 {
+  
+  if(globalJournalSheet.getRange(CONSTANTS.cellSignedByValue[0],CONSTANTS.cellSignedByValue[1]).isBlank())
+  {
+   submitError = "Who will sign the Time Sheet? Please enter in J7\n"
+   return false
+  }
+  
   var row = CONSTANTS.cellDateHeader[0] +1;
   var blnError = globalJournalSheet.getRange(row,CONSTANTS.cellDateHeader[1]).isBlank()
 

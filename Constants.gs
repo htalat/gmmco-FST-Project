@@ -39,7 +39,7 @@ var CONSTANTS = {
   cellTechnicianValue:   [5,8],
   cellSerialNumberValue: [4,10],
   cellHourMeterValue:    [5,10],
-  cellContactValue:      [6,10],
+  cellSignedByValue:      [6,10],
   cellPhoneValue:        [7,10],
   cellEmailValue:        [8,10],
  
