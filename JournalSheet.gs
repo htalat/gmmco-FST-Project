@@ -117,23 +117,25 @@ function validateRow(row)
 */
 function colorJournalCells(lngEventTypeId, row, lngEventId)
 {
-   var strEventPaymentDefault = globalProgramDataSheet.getRange(CONSTANTS.cellDefaultPaymentType[0],CONSTANTS.cellDefaultPaymentType[1]).getValue();
+  var strEventPaymentDefault = globalProgramDataSheet.getRange(CONSTANTS.cellDefaultPaymentType[0],CONSTANTS.cellDefaultPaymentType[1]).getValue();
 
   if(lngEventTypeId === CONSTANTS.EventDataTypeId.lngAmount)
   {
+    
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellTimeStartHeader[1]);
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellTimeStopHeader[1]);
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellVehicleUsedHeader[1]);    
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellMilesHeader[1]);
-
-   setPaymentTypeIDInJournal(row,strEventPaymentDefault);
+    
+    globalJournalSheet.getRange(row , CONSTANTS.cellPaymentTypeHeader[1]).setValue(strEventPaymentDefault);
+    setPaymentTypeIDInJournal(row,strEventPaymentDefault);
     
   }else if(lngEventTypeId === CONSTANTS.EventDataTypeId.lngMileage){
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellTimeStartHeader[1]);
     colorJournalCell(COLORS.Red, row , CONSTANTS.cellTimeStopHeader[1]);
-  
+    
     globalJournalSheet.getRange(row , CONSTANTS.cellPaymentTypeHeader[1]).setValue(strEventPaymentDefault);
-
+    
     setPaymentTypeIDInJournal(row,strEventPaymentDefault);
     
   }else if(lngEventTypeId === CONSTANTS.EventDataTypeId.lngTime){
@@ -148,9 +150,9 @@ function colorJournalCells(lngEventTypeId, row, lngEventId)
     
     var lngEventDefault = getEventDefault(lngEventId);
     globalJournalSheet.getRange(row , CONSTANTS.cellAmountHeader[1]).setValue(lngEventDefault);
-
+   
     globalJournalSheet.getRange(row , CONSTANTS.cellPaymentTypeHeader[1]).setValue(strEventPaymentDefault);
-
+    
     setPaymentTypeIDInJournal(row,strEventPaymentDefault);
   }
 }
