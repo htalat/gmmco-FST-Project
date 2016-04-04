@@ -268,7 +268,7 @@ function checkForErrors()
   
   if(globalJournalSheet.getRange(CONSTANTS.cellSignedByValue[0],CONSTANTS.cellSignedByValue[1]).isBlank())
   {
-   submitError = "Who will sign the Time Sheet? Please enter in J7\n"
+   submitError = "Who will sign the Time Sheet? Please enter in J6\n"
    return false
   }
   
