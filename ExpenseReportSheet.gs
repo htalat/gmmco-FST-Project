@@ -61,7 +61,7 @@ function compileExpenseData()
             mnyAirCC += strAmount
         }
         
-        if( (strEvent.indexOf('Rental') != -1) || (strEvent.indexOf('Fuel') != -1) || (strEvent.indexOf('Parking') != -1 ) || (strEvent.indexOf('Taxi')))
+        if( (strEvent.indexOf('Rental') != -1) || (strEvent.indexOf('Fuel') != -1) || (strEvent.indexOf('Parking') != -1 ) || (strEvent.indexOf('Taxi') != -1))
         {
           if((strPaymentType.indexOf('Pocket') != -1) || strPaymentType.indexOf('OOP') != -1)
             mnyRoadOP += strAmount
